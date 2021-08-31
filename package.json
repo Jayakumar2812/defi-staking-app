@@ -1,7 +1,7 @@
 {
-  "name": "bytetxcoin",
+  "name": "bytetx",
   "version": "0.1.0",
-  "description": "byetx Token Staking App",
+  "description": "Byet Token Staking App",
   "author": "Jayakumar S",
   "dependencies": {
     "@types/jest": "^26.0.24",
