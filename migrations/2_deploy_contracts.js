@@ -11,6 +11,6 @@ module.exports = async function (deployer, network,accounts){
 
     await rwd.transfer(decentralBank.address,"16000000000000000000000000")
     
-    await byetx.transfer(accounts[1],"10000000000000000000")
+    await byetx.transfer(accounts[1],"200000000000000000000")
 
 };

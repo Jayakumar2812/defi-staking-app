@@ -5,6 +5,7 @@ import Web3 from "web3";
 import Byetx from "../truffle_abis/Byetx.json";
 import RWD from "../truffle_abis/RWD.json";
 import DecentralBank from "../truffle_abis/DecentralBank.json";
+import Main from "./Main"
 
 class App extends Component{
 
@@ -36,9 +37,9 @@ class App extends Component{
         if(byetxData){
             const byetx = new web3.eth.Contract(Byetx.abi,byetxData.address)
             this.setState({byetx})
-            let bytexBalance = await byetx.methods.balanceof(this.state.account).call()
-            this.setState({bytexBalance: bytexBalance.toString()})
-            console.log({byetxbalance: bytexBalance})
+            let byetxBalance = await byetx.methods.balanceof(this.state.account).call()
+            this.setState({byetxBalance: byetxBalance.toString()})
+            console.log({byetxbalance: byetxBalance})
         }
         else{
             window.alert("Error! Byetx contract not deployed - network not detected!")
@@ -63,9 +64,33 @@ class App extends Component{
         else{
             window.alert("Error! DecentralBank contract not deployed - network not detected!")
         }
-        this.setState({loading: false})
+        this.setState({loading:false})
     }
-
+    //staking-tranferfrom-approval-depositTokens(send(transactionHash))
+    //staking function
+    stakeTokens = (amount) =>{
+        this.setState({loading:true})
+        this.state.byetx.methods.approve(this.state.decentralBank._address,amount).send({from:this.state.account}).on("transactionHash",(hash) =>{
+        this.state.decentralBank.methods.depositTokens(amount).send({from:this.state.account}).on("transactionHash",(hash) =>{
+            this.setState({loading:false})
+        })
+    })
+    }
+    // unstaking function
+    unstakingTokens = () =>{
+        this.setState({loading:true})
+        this.state.decentralBank.methods.unstakeTokens().send({from:this.state.account}).on("transactionHash",(hash) =>{
+            this.setState({loading:false})
+        
+    })
+    }
+    issueTokens = () =>{
+        this.setState({loading:true})
+        this.state.decentralBank.methods.issueTokens().send({from:this.state.account}).on("transactionHash",(hash) =>{
+            this.setState({loading:false})
+        
+    })
+    }
     constructor(props){
         super(props)
         this.state = {
@@ -73,17 +98,39 @@ class App extends Component{
             byetx: {},
             rwd:{},
             decentralBank:{},
-            bytexBalance: "0",
+            byetxBalance: "0",
             rwdBalance: "0",
             stakingBalance: "0",
             loading:true
         }
     }
     render(){
+        let content
+        {this.state.loading ? content =
+        <p id="loader" className="text-center" style={{margin:"30px"}}>
+            LOADING PLEASE WAIT...
+        </p> : 
+        content = <Main 
+        byetxBalance = {this.state.byetxBalance}
+        rwdBalance = {this.state.rwdBalance}
+        stakingBalance= {this.state.stakingBalance}
+        stakeTokens = {this.stakeTokens}
+        unstakeTokens = {this.unstakingTokens}
+        issueTokens = {this.issueTokens}
+        />}
         return (
             <div>
                 <Navbar account={this.state.account}></Navbar>
                 <h1>{console.log(this.state.loading)}</h1>
+                <div className="container-fluid mt-5">
+                    <div className="row">
+                        <main role="main" className="col-lg-12 ml-auto mr-auto" style={{maxWidth:"600px",minHeight:"100vm"}}>
+                            <div>
+                               {content}
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         )
     }

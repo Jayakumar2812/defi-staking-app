@@ -12290,12 +12290,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x968acdA4D1D953f98b488E2B31990c621801207b",
-      "transactionHash": "0x95cf7d95dec697b68762a58cf7c5957f8c67acf51d818a23f356d81a6145f19e"
+      "address": "0x4E3561949c8D9a33B1A4C521804ea33bc93A950a",
+      "transactionHash": "0x7998e3981af3e8efadf74366a6412725ac743a4f4bcc02d20daa56065d972329"
     }
   },
   "schemaVersion": "3.4.2",
-  "updatedAt": "2021-09-01T06:47:50.750Z",
+  "updatedAt": "2021-09-03T11:44:48.950Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
